@@ -52,7 +52,7 @@ export default function WisdomBookmark() {
 
     return (
         <View style={styles.container}>
-            <Header title="Lời dạy của Phật" showBack={true} />
+            <Header title="Lời dạy của Phật" showBack={true} showBookmark={false}/>
             <ScrollView 
                 style={styles.scrollView}
                 contentContainerStyle={[
