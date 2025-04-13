@@ -26,102 +26,31 @@ const FEEDBACK_OPTIONS = [
     { emoji: "😕", label: "Chưa phù hợp", value: "not_helpful", positive: false },
 ];
 
-const WisdomContent = (wisdom: BuddhistWisdom, intentLabel: string) => {
-    return (
-        <View>
-            <View style={styles.intentTagContainer}>
-                <View style={styles.wisdomIntentTag}>
-                    <Text style={styles.wisdomIntentTagText}>
-                        {intentLabel}
-                    </Text>
-                </View>
-            </View>
-            <Text style={styles.wisdomContent}>"{wisdom.quote}"</Text>
-            <Text style={styles.wisdomAuthor}>— {wisdom.author}</Text>
-        </View>
-    );
-}
-
-const WisdomReflection = (wisdom: BuddhistWisdom) => {
-    return (
-        <View>
-            <View style={styles.reflectionContainer}>
-                <Text style={styles.reflectionTitle}>Suy ngẫm:</Text>
-                <Text style={styles.reflectionText}>{wisdom.reflection}</Text>
-            </View>
-        </View>
-    )
-}
-
-const WisdomFeedback = (
-    selectedFeedback: any,
-    onFeedback: (value: string, positive: boolean) => void
-) => {
-    return (
-        <View style={styles.feedbackContainer}>
-            <Text style={styles.feedbackTitle}>
-                Lời dạy này có giúp bạn hôm nay không?
-            </Text>
-            <View style={styles.feedbackOptions}>
-                {FEEDBACK_OPTIONS.map((option) => (
-                    <TouchableOpacity
-                        key={option.value}
-                        style={[
-                            styles.feedbackButton,
-                            selectedFeedback === option.value && styles.selectedFeedbackButton
-                        ]}
-                        onPress={() => onFeedback(option.value, option.positive)}
-                    >
-                        <Text style={styles.feedbackEmoji}>{option.emoji}</Text>
-                        <Text style={styles.feedbackLabel}>{option.label}</Text>
-                    </TouchableOpacity>
-                ))}
-            </View>
-        </View>
-    )
-}
-
-const CTAButtons = (
-    onBookmark: () => void
-) => {
-    const navigation = useNavigation();
-
-    return (
-        <View style={styles.actionButtons}>
-            <TouchableOpacity style={styles.resetButton}
-                onPress={() => {
-                    navigation.goBack()
-                }}
-            >
-                <Ionicons name="refresh" size={16} color="#4B5563" />
-                <Text style={styles.resetButtonText}>Hỏi lại</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.saveButton}
-                onPress={onBookmark}
-            >
-                <Feather name="thumbs-up" size={16} color="#FFFFFF" />
-                <Text style={styles.saveButtonText}>Lưu lại</Text>
-            </TouchableOpacity>
-        </View>
-    );
-}
-
 const WisdomDetail = () => {
+    // Navigation and route hooks
     const route = useRoute();
-
-    const { selectedIntent, selectedIntentLabel, wisdomInput } = route.params;
-    const [wisdom, setWisdom] = useState<BuddhistWisdom | null>(wisdomInput);
+    const navigation = useNavigation();
     const insets = useSafeAreaInsets();
 
-
+    // State hooks
+    const { selectedIntent, selectedIntentLabel, wisdomInput } = route.params;
+    const [wisdom, setWisdom] = useState<BuddhistWisdom | null>(wisdomInput);
     const [selectedFeedback, setSelectedFeedback] = useState<string | null>(null);
+    const [showBanner, setShowBanner] = useState(false);
+    const fadeAnim = React.useRef(new Animated.Value(0)).current;
+
+    // Effect hooks
+    useEffect(() => {
+        if (wisdom == null) {
+            generateBuddhistWisdom(selectedIntent)
+                .then((wisdom) => setWisdom(wisdom))
+        }
+    }, [])
+
+    // Event handlers
     const onFeedback = (value: string, positive: boolean) => {
         setSelectedFeedback(value)
     }
-
-    // Notification Banner after bookmark
-    const [showBanner, setShowBanner] = useState(false);
-    const fadeAnim = React.useRef(new Animated.Value(0)).current;
 
     const showNotificationBanner = () => {
         setShowBanner(true);
@@ -142,9 +71,106 @@ const WisdomDetail = () => {
         });
     };
 
-    const bannerView = (title: string, subtitle: string) => {
-        const navigation = useNavigation();
+    const handleBookmark = (wisdom: BuddhistWisdom) => {
+        showNotificationBanner();
+        WisdomRepository.bookmarkWisdom(
+            wisdom,
+            selectedIntent
+        )
+    }
 
+
+    // UI Components
+    const WisdomContent = (wisdom: BuddhistWisdom, intentLabel: string) => {
+        return (
+            <View>
+                <View style={styles.intentTagContainer}>
+                    <View style={styles.wisdomIntentTag}>
+                        <Text style={styles.wisdomIntentTagText}>
+                            {intentLabel}
+                        </Text>
+                    </View>
+                </View>
+                <Text style={styles.wisdomContent}>"{wisdom.quote}"</Text>
+                <Text style={styles.wisdomAuthor}>— {wisdom.author}</Text>
+            </View>
+        );
+    }
+
+    const WisdomReflection = (wisdom: BuddhistWisdom) => {
+        return (
+            <View>
+                <View style={styles.reflectionContainer}>
+                    <Text style={styles.reflectionTitle}>Suy ngẫm:</Text>
+                    <Text style={styles.reflectionText}>{wisdom.reflection}</Text>
+                </View>
+            </View>
+        )
+    }
+
+    const WisdomFeedback = (
+        selectedFeedback: any,
+        onFeedback: (value: string, positive: boolean) => void
+    ) => {
+        return (
+            <View style={styles.feedbackContainer}>
+                <Text style={styles.feedbackTitle}>
+                    Lời dạy này có giúp bạn hôm nay không?
+                </Text>
+                <View style={styles.feedbackOptions}>
+                    {FEEDBACK_OPTIONS.map((option) => (
+                        <TouchableOpacity
+                            key={option.value}
+                            style={[
+                                styles.feedbackButton,
+                                selectedFeedback === option.value && styles.selectedFeedbackButton
+                            ]}
+                            onPress={() => onFeedback(option.value, option.positive)}
+                        >
+                            <Text style={styles.feedbackEmoji}>{option.emoji}</Text>
+                            <Text style={styles.feedbackLabel}>{option.label}</Text>
+                        </TouchableOpacity>
+                    ))}
+                </View>
+            </View>
+        )
+    }
+
+    const CTAButtons = (
+        onBookmark: () => void
+    ) => {
+        return (
+            <View style={styles.actionButtons}>
+                <TouchableOpacity style={styles.resetButton}
+                    onPress={() => {
+                        navigation.goBack()
+                    }}
+                >
+                    <Ionicons name="refresh" size={16} color="#4B5563" />
+                    <Text style={styles.resetButtonText}>Hỏi lại</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.saveButton}
+                    onPress={onBookmark}
+                >
+                    <Feather name="thumbs-up" size={16} color="#FFFFFF" />
+                    <Text style={styles.saveButtonText}>Lưu lại</Text>
+                </TouchableOpacity>
+            </View>
+        );
+    }
+
+
+    // Render components
+    const wisdomContent = wisdom != null ? WisdomContent(
+        wisdom, selectedIntentLabel
+    ) : null
+    const wisdomReflection = wisdom != null ? WisdomReflection(wisdom) : null
+    const wisdomFeedback = wisdom != null ? WisdomFeedback(selectedFeedback, onFeedback) : null
+    const ctaButtons = wisdom != null ? CTAButtons(() => {
+        handleBookmark(wisdom);
+    }) : null
+
+    const bannerView = (title: string, subtitle: string) => {
         return (
             <Animated.View style={[styles.banner, {
                 opacity: fadeAnim,
@@ -155,7 +181,7 @@ const WisdomDetail = () => {
                         <Text style={styles.bannerTitle}>{title}</Text>
                         <Text style={styles.bannerSubtitle}>{subtitle}</Text>
                     </View>
-                    <TouchableOpacity 
+                    <TouchableOpacity
                         style={styles.bannerButton}
                         onPress={() => {
                             setShowBanner(false);
@@ -167,33 +193,7 @@ const WisdomDetail = () => {
                 </View>
             </Animated.View>
         );
-
     }
-
-    const handleBookmark = (wisdom: BuddhistWisdom) => {
-        showNotificationBanner();
-
-        WisdomRepository.bookmarkWisdom(
-            wisdom,
-            selectedIntent
-        )
-    }
-
-    useEffect(() => {
-        if (wisdom == null) {
-            generateBuddhistWisdom(selectedIntent)
-                .then((wisdom) => setWisdom(wisdom))
-        }
-    }, [])
-
-    const wisdomContent = wisdom != null ? WisdomContent(
-        wisdom, selectedIntentLabel
-    ) : null
-    const wisdomReflection = wisdom != null ? WisdomReflection(wisdom) : null
-    const wisdomFeedback = wisdom != null ? WisdomFeedback(selectedFeedback, onFeedback) : null
-    const ctaButtons = wisdom != null ? CTAButtons(() => {
-        handleBookmark(wisdom);
-    }) : null
 
     return (
         <View style={styles.screen}>
