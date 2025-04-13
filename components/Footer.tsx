@@ -1,22 +1,25 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import {
-    SafeAreaView
+    SafeAreaView,
+    useSafeAreaInsets
   } from 'react-native-safe-area-context'
 
 const Footer = () => {
+    const insets = useSafeAreaInsets();
+
     return (
-        <SafeAreaView edges={['bottom']}>
-            <View style={styles.bottomTextContainer}>
-                <Text style={styles.bottomText}>Mỗi ngày một lời Phật dạy</Text>
-            </View>
-        </SafeAreaView>
+        <View style={[styles.bottomTextContainer, { bottom: insets.bottom }]}>
+            <Text style={styles.bottomText}>Mỗi ngày một lời Phật dạy</Text>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
     bottomTextContainer: {
         padding: 16,
-        backgroundColor: '#f0f6ef'
+        backgroundColor: '#f0f6ef',
+        position: 'absolute',
+        width: '100%',
     },
     bottomText: {
         textAlign: 'center',
