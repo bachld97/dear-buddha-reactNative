@@ -230,7 +230,10 @@ const WisdomDetail = () => {
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
-        backgroundColor: "#f0f6ef",
+        backgroundColor: Colors.background,
+    },
+    contentContainer: {
+        flex: 1,
         padding: 16,
     },
     loadingView: {
@@ -414,9 +417,6 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
         fontSize: 14,
         fontWeight: '500',
-    },
-    contentContainer: {
-        flex: 1,
     },
 })
 
