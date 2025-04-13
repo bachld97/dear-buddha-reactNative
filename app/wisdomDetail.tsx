@@ -17,7 +17,7 @@ import { WisdomRepository } from "@/persistent/AsyncStorage"
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Feather from '@expo/vector-icons/Feather';
-
+import { Colors } from '@/constants/Colors';
 
 const FEEDBACK_OPTIONS = [
     { emoji: "🙏", label: "Rất giúp ích", value: "very_helpful", positive: true },
@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
         marginBottom: 12
     },
     wisdomIntentTag: {
-        backgroundColor: '#e5ebe4',
+        backgroundColor: Colors.appGreenLight,
         paddingHorizontal: 10,
         paddingVertical: 4,
         borderRadius: 12,

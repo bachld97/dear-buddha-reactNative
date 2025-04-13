@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "expo-router";
 import { Feather } from "@expo/vector-icons";
+import { Colors } from '@/constants/Colors';
 
 const INTENTS = [
   { value: "calm", label: "Bình yên", emoji: "😌" },
@@ -125,8 +126,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fbfcf6',
   },
   selectedIntentButton: {
-    backgroundColor: '#669784',
-    borderColor: '#669784',
+    backgroundColor: Colors.appGreen,
+    borderColor: Colors.appGreen,
   },
   intentEmoji: {
     fontSize: 24,

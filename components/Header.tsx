@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import {
   SafeAreaView
 } from 'react-native-safe-area-context'
+import { Colors } from '@/constants/Colors';
 
 interface HeaderProps {
   title?: string;
@@ -28,7 +29,7 @@ const Header: React.FC<HeaderProps> = ({
               style={styles.backButton}
               onPress={() => navigation.goBack()}
             >
-              <Ionicons name="chevron-back" size={16} color="#4B5563" />
+              <Ionicons name="chevron-back" size={16} color={Colors.icon} />
             </TouchableOpacity>
           )}
           <Text style={styles.title}>{title}</Text>
@@ -38,7 +39,7 @@ const Header: React.FC<HeaderProps> = ({
             style={styles.bookmarkButton}
             onPress={() => navigation.navigate('wisdomBookmark')}
           >
-            <Ionicons name="bookmark" size={16} color="#4B5563" />
+            <Ionicons name="bookmark" size={16} color={Colors.icon} />
           </TouchableOpacity>
         )}
       </View>
@@ -48,14 +49,14 @@ const Header: React.FC<HeaderProps> = ({
 
 const styles = StyleSheet.create({
   safeArea: {
-    backgroundColor: '#f0f6ef',
+    backgroundColor: Colors.background,
   },
   container: {
     padding: 16,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#f0f6ef',
+    backgroundColor: Colors.background,
   },
   leftContainer: {
     flexDirection: 'row',
@@ -67,7 +68,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#1F2937',
+    color: Colors.textTitle,
   },
   bookmarkButton: {
     padding: 8,
