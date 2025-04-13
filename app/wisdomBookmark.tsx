@@ -66,7 +66,7 @@ export default function WisdomBookmark() {
                 ) : (
                     bookmarks.map((bookmark) => (
                         <View
-                            key={bookmark.id}
+                            key={bookmark.wisdom.quote}
                             style={styles.card}
                         >
                             <View style={styles.cardHeader}>

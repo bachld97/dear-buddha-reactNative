@@ -34,8 +34,26 @@ export class WisdomRepository {
         const bookmarks = JSON.parse(bookmarkStrings)
             .map((aBookmarkString: string) => {
                 return JSON.parse(aBookmarkString)
-            });
-        return bookmarks.reverse();
+            })
+            .reverse();
+
+        const results: [Bookmark] = [];
+        const setQuote = new Set<string>();
+        bookmarks.filter((bkMark: Bookmark) => {
+            if (!setQuote.has(bkMark.wisdom.quote)) {
+                setQuote.add(bkMark.wisdom.quote);
+                results.push(bkMark)
+            }
+        })
+
+        await this.setItem(
+            this.kBookmarkKey,
+            JSON.stringify(results.map((aBookmarkObj: Bookmark) => {
+                return JSON.stringify(aBookmarkObj);
+            }))
+        );
+
+        return results;
     }
 
     static async bookmarkWisdom(

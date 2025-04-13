@@ -42,7 +42,7 @@ const WisdomDetail = () => {
     // Effect hooks
     useEffect(() => {
         if (wisdom == null) {
-            generateBuddhistWisdom(selectedIntent)
+            generateBuddhistWisdom(selectedIntent.value)
                 .then((wisdom) => setWisdom(wisdom))
         }
     }, [])
