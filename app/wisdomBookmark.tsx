@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import Header from '../components/Header';
 import { WisdomRepository, Bookmark } from '../persistent/AsyncStorage';
 import { BuddhistWisdom } from "@/persistent/wisdom"
@@ -9,6 +9,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 export default function WisdomBookmark() {
     const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
+    const insets = useSafeAreaInsets();
 
     useEffect(() => {
         loadBookmarks();
@@ -52,7 +53,13 @@ export default function WisdomBookmark() {
     return (
         <View style={styles.container}>
             <Header title="Lời dạy của Phật" showBack={true} />
-            <ScrollView style={styles.scrollView}>
+            <ScrollView 
+                style={styles.scrollView}
+                contentContainerStyle={[
+                    styles.scrollViewContent,
+                    { paddingBottom: insets.bottom + 16 }
+                ]}
+            >
                 {bookmarks.length === 0 ? (
                     <View style={styles.emptyContainer}>
                         <Text style={styles.emptyText}>Chưa có lời dạy nào</Text>
@@ -105,6 +112,8 @@ const styles = StyleSheet.create({
     },
     scrollView: {
         flex: 1,
+    },
+    scrollViewContent: {
         padding: 16,
     },
     emptyContainer: {
