@@ -1,12 +1,8 @@
 import { Stack } from "expo-router";
 import {
-  SafeAreaView,
   SafeAreaProvider,
-  SafeAreaInsetsContext,
   useSafeAreaInsets
 } from 'react-native-safe-area-context'
-import WisdomDetail from "./wisdomDetail";
-import Index from "./index";
 
 export default function RootLayout() {
   const insets = useSafeAreaInsets();

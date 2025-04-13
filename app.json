@@ -4,37 +4,36 @@
     "slug": "dear-buddha",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/adaptive-icon2.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.backeleeda.dearbuddha",
+      "bundleIdentifier": "org.screatelabs.hoiphat",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon2.png",
+        "foregroundImage": "./assets/adaptive-icon2.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.backeleeda.dearbuddha"
+      "package": "org.screatelabs.hoiphat"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/icon2.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon2.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
+          "image": "./assets/splash-icon2.png",
+          "resizeMode": "cover",
           "backgroundColor": "#ffffff"
         }
       ]
