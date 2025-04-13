@@ -5,6 +5,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 import { Colors } from '@/constants/Colors';
+import Footer from "@/components/Footer";
 
 const INTENTS = [
   { value: "calm", label: "Bình yên", emoji: "😌" },
@@ -83,6 +84,8 @@ export default function Index() {
           </View>
         )}
       </TouchableOpacity>
+
+      <Footer />
     </View>
   );
 }

@@ -10,6 +10,7 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Header from "@/components/Header"
+import Footer from "@/components/Footer"
 
 import { BuddhistWisdom } from "@/persistent/wisdom"
 import { generateBuddhistWisdom } from "@/persistent/wisdom"
@@ -220,9 +221,8 @@ const WisdomDetail = () => {
                     </View>
                 }
             </View>
-            <View style={[styles.bottomTextContainer, { paddingBottom: insets.bottom }]}>
-                <Text style={styles.bottomText}>Mỗi ngày một lời Phật dạy</Text>
-            </View>
+
+            <Footer />
         </View>
     )
 }
@@ -417,16 +417,6 @@ const styles = StyleSheet.create({
     },
     contentContainer: {
         flex: 1,
-    },
-    bottomTextContainer: {
-        padding: 16,
-        backgroundColor: '#f0f6ef'
-    },
-    bottomText: {
-        textAlign: 'center',
-        color: '#56695d',
-        fontSize: 13,
-        fontWeight: 500
     },
 })
 
