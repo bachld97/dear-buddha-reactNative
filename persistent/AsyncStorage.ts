@@ -62,9 +62,15 @@ export class WisdomRepository {
             return JSON.parse(aBookmarkString)
         })
         .filter((aBookmark: Bookmark) => {
-            aBookmark.id != bookmark.id
+            return aBookmark.id !== bookmark.id
         });
-        await this.setItem(this.kBookmarkKey, JSON.stringify(bookmarks))
+
+        await this.setItem(
+            this.kBookmarkKey,
+            JSON.stringify(bookmarks.map((aBookmarkObj: Bookmark) => {
+                return JSON.stringify(aBookmarkObj);
+            }))
+        );
 
         return bookmarks;
     }

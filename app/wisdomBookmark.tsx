@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'rea
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import Header from '../components/Header';
 import { WisdomRepository, Bookmark } from '../persistent/AsyncStorage';
-import { BuddhistWisdom } from "@/persistent/wisdom"
 import { Ionicons } from '@expo/vector-icons';
 
 
@@ -52,7 +51,7 @@ export default function WisdomBookmark() {
 
     return (
         <View style={styles.container}>
-            <Header title="Lời dạy của Phật" showBack={true} showBookmark={false}/>
+            <Header title="Lời dạy của Phật" showBack={true} showBookmark={false} />
             <ScrollView 
                 style={styles.scrollView}
                 contentContainerStyle={[
@@ -67,7 +66,7 @@ export default function WisdomBookmark() {
                 ) : (
                     bookmarks.map((bookmark) => (
                         <View
-                            key={bookmark.ts}
+                            key={bookmark.id}
                             style={styles.card}
                         >
                             <View style={styles.cardHeader}>
@@ -80,7 +79,7 @@ export default function WisdomBookmark() {
                                     }).replace('ngày ', '')}
                                 </Text>
                                 <TouchableOpacity 
-                                    onPress={() => handleDeleteBookmark(bookmark.wisdom)}
+                                    onPress={() => handleDeleteBookmark(bookmark)}
                                     style={styles.deleteButton}
                                 >
                                     <Ionicons name="trash-outline" size={16}
