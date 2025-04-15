@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "164238814955",
+    "project_id": "fir-genai-805ec",
+    "storage_bucket": "fir-genai-805ec.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:164238814955:android:7e23d51f52d873882558ae",
+        "android_client_info": {
+          "package_name": "org.screatelabs.hoiphat.local"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATGBIhjQAVKCFHS9pNu79Hrj-X_1f_-ew"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,60 +1,72 @@
 {
-  "expo": {
-    "name": "Hỏi Phật",
-    "slug": "dear-buddha",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/adaptive-icon2.png",
-    "scheme": "myapp",
-    "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "org.screatelabs.hoiphat",
-      "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
-      }
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon2.png",
-        "backgroundColor": "#ffffff"
-      },
-      "package": "org.screatelabs.hoiphat"
-    },
-    "web": {
-      "bundler": "metro",
-      "output": "static",
-      "favicon": "./assets/icon2.png"
-    },
-    "plugins": [
-      "expo-router",
-      [
-        "expo-splash-screen",
-        {
-          "image": "./assets/splash-icon2.png",
-          "resizeMode": "cover",
-          "backgroundColor": "#ffffff"
-        }
-      ]
-    ],
-    "experiments": {
-      "typedRoutes": true
-    },
-    "extra": {
-      "router": {
-        "origin": false
-      },
-      "eas": {
-        "projectId": "970742d7-b5c9-404d-b4dd-00a6d078d48e"
-      }
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "fonts": [
-      "assets/fonts/NotoSerif-Regular.ttf",
-      "assets/fonts/NotoSerif-Bold.ttf"
-    ]
-  }
+    "expo": {
+        "name": "Hỏi Phật",
+        "slug": "dear-buddha",
+        "version": "1.0.0",
+        "orientation": "portrait",
+        "icon": "./assets/adaptive-icon2.png",
+        "scheme": "myapp",
+        "userInterfaceStyle": "automatic",
+        "newArchEnabled": true,
+        "ios": {
+            "googleServicesFile": "./GoogleService-Info.plist",
+            "supportsTablet": true,
+            "bundleIdentifier": "org.screatelabs.hoiphat.local",
+            "infoPlist": {
+                "ITSAppUsesNonExemptEncryption": false
+            }
+        },
+        "android": {
+            "googleServicesFile": "./google-services.json",
+            "adaptiveIcon": {
+                "foregroundImage": "./assets/adaptive-icon2.png",
+                "backgroundColor": "#ffffff"
+            },
+            "package": "org.screatelabs.hoiphat.local"
+        },
+        "web": {
+            "bundler": "metro",
+            "output": "static",
+            "favicon": "./assets/icon2.png"
+        },
+        "plugins": [
+            "expo-router",
+            [
+                "expo-splash-screen",
+                {
+                    "image": "./assets/splash-icon2.png",
+                    "resizeMode": "cover",
+                    "backgroundColor": "#ffffff"
+                }
+            ],
+            "@react-native-firebase/app",
+            "@react-native-firebase/crashlytics",
+            [
+                "expo-build-properties",
+                {
+                    "ios": {
+                        "useFrameworks": "static"
+                    }
+                }
+            ]
+        ],
+        "experiments": {
+            "typedRoutes": true
+        },
+        "extra": {
+            "router": {
+                "origin": false
+            },
+            "eas": {
+                "projectId": "970742d7-b5c9-404d-b4dd-00a6d078d48e"
+            }
+        },
+        "assetBundlePatterns": [
+            "**/*"
+        ],
+        "fonts": [
+            "assets/fonts/NotoSerif-Regular.ttf",
+            "assets/fonts/NotoSerif-Bold.ttf"
+        ]
+    }
 }
