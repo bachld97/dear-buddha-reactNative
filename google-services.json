@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "164238814955",
-    "project_id": "fir-genai-805ec",
-    "storage_bucket": "fir-genai-805ec.firebasestorage.app"
+    "project_number": "917824243463",
+    "project_id": "dear-buddha",
+    "storage_bucket": "dear-buddha.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:164238814955:android:7e23d51f52d873882558ae",
+        "mobilesdk_app_id": "1:917824243463:android:e995a8a0415147929d27a2",
         "android_client_info": {
-          "package_name": "org.screatelabs.hoiphat.local"
+          "package_name": "org.screatelabs.hoiphat"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyATGBIhjQAVKCFHS9pNu79Hrj-X_1f_-ew"
+          "current_key": "AIzaSyDPTaio62Jog61bvzxsrsI_-Lzi-bzBjAE"
         }
       ],
       "services": {
