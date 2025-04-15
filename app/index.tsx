@@ -1,33 +1,87 @@
-import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  ActivityIndicator
+ } from "react-native";
 import Header from "@/components/Header"
 import { useState, useEffect } from 'react';
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 import { Colors } from '@/constants/Colors';
 import Footer from "@/components/Footer";
 
-const INTENTS = [
-  { value: "calm", label: "Bình yên", emoji: "😌" },
-  { value: "insight", label: "Hiểu biết", emoji: "💡" },
-  { value: "gratitude", label: "Biết ơn", emoji: "🙏" },
-  { value: "confusion", label: "Hoang mang", emoji: "😕" },
-];
+import { AppEventTracker } from "@/tracking/AppEventTracker";
+import { IntentRepository } from "@/domain/IntentRepository";
+import { Intent } from "@/domain/DomainModels"
+
 
 
 export default function Index() {
+  const [listIntents, setListIntents] = useState<[Intent] | null>(null);
+  const [selectedIntent, setSelectedIntent] = useState<Intent | null>(null);
+
+  useEffect(() => {
+    if (listIntents == null) {
+      IntentRepository.getIntents()
+        .then((intents) => setListIntents(intents));
+    }
+  })
 
   const navigation = useNavigation()
 
-  const [selectedIntent, setSelectedIntent] = useState(INTENTS[0]);
+  const createIntentsGrid = (intents: [Intent] | null): any => {
 
-  const [isAsking, setIsAsking] = useState(false);
+    const handleSelectIntent = (intent: Intent) => {
+      setSelectedIntent(intent)
+      AppEventTracker.logEvent("select_intent", {
+        "name": intent.intentType
+      })
+    };
+
+    const isIntentSelected = (intent: Intent): boolean => {
+      if (selectedIntent == null) {
+        return false;
+      }
+      return selectedIntent.intentType === intent.intentType;
+    }
+
+    if (listIntents == null) {
+      return <ActivityIndicator
+        style={styles.loadingView}
+        size="small" color="#669784"
+      />
+    } else {
+      return (
+        <View style={styles.intentGrid}>
+          {intents.map(intent => (
+            <TouchableOpacity
+              key={intent.intentType}
+              style={[
+                styles.intentButton,
+                isIntentSelected(intent) && styles.selectedIntentButton
+              ]}
+              onPress={() => handleSelectIntent(intent)}
+            >
+              <Text style={styles.intentEmoji}>{intent.emoji}</Text>
+              <Text style={[
+                styles.intentLabel,
+                isIntentSelected(intent) && styles.selectedIntentLabel
+              ]}>
+                {intent.label}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      );
+    }
+  }
 
   // Action handler
   const handleAskBuddha = () => {
     navigation.navigate('wisdomDetail', {
       selectedIntent: selectedIntent,
-      selectedIntentLabel: selectedIntent.label
     });
   };
 
@@ -46,43 +100,16 @@ export default function Index() {
         </Text>
       </View>
 
-      <View style={styles.intentGrid}>
-        {INTENTS.map(intent => (
-          <TouchableOpacity
-            key={intent.value}
-            style={[
-              styles.intentButton,
-              selectedIntent.value === intent.value && styles.selectedIntentButton
-            ]}
-            onPress={() => setSelectedIntent(intent)}
-          >
-            <Text style={styles.intentEmoji}>{intent.emoji}</Text>
-            <Text style={[
-              styles.intentLabel,
-              selectedIntent.value === intent.value && styles.selectedIntentLabel
-            ]}>
-              {intent.label}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
+      {createIntentsGrid(listIntents)}
 
       <TouchableOpacity
-        style={[styles.askButton, isAsking && styles.askButtonDisabled]}
+        style={styles.askButton}
         onPress={handleAskBuddha}
-        disabled={isAsking}
       >
-        {isAsking ? (
-          <View style={styles.askingContainer}>
-            <Text style={styles.askingText}>🪷</Text>
-            <Text style={styles.askButtonText}>Đang hỏi...</Text>
-          </View>
-        ) : (
-          <View style={styles.askButtonContainer}>
-            <Text style={styles.askButtonText}>Hỏi Phật</Text>
-            <Feather name="chevron-right" size={16} color="#FFFFFF" />
-          </View>
-        )}
+        <View style={styles.askButtonContainer}>
+          <Text style={styles.askButtonText}>Hỏi Phật</Text>
+          <Feather name="chevron-right" size={16} color="#FFFFFF" />
+        </View>
       </TouchableOpacity>
 
       <Footer />
@@ -94,6 +121,9 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: "#f0f6ef"
+  },
+  loadingView: {
+    margin: 64
   },
   intentSection: {
     alignItems: 'center',

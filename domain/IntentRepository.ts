@@ -1,5 +1,6 @@
 import { BuddhistWisdom, Intent, IntentType } from "./DomainModels";
 
+// Rename: WisdomRepository
 export class IntentRepository {
 
     static async getIntents(): Promise<[Intent]> {
@@ -15,7 +16,6 @@ export class IntentRepository {
         })
 
     }
-
 
     static async getWisdom(
         intent: Intent

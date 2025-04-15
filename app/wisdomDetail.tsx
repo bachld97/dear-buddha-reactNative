@@ -12,9 +12,9 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 
-import { BuddhistWisdom } from "@/persistent/wisdom"
-import { generateBuddhistWisdom } from "@/persistent/wisdom"
-import { WisdomRepository } from "@/persistent/AsyncStorage"
+import { BuddhistWisdom } from "@/domain/DomainModels"
+import { WisdomRepository } from "@/domain/WisdomRepository"
+import { IntentRepository } from "@/domain/IntentRepository"
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Feather from '@expo/vector-icons/Feather';
@@ -34,7 +34,7 @@ const WisdomDetail = () => {
     const insets = useSafeAreaInsets();
 
     // State hooks
-    const { selectedIntent, selectedIntentLabel, wisdomInput } = route.params;
+    const { selectedIntent, wisdomInput } = route.params;
     const [wisdom, setWisdom] = useState<BuddhistWisdom | null>(wisdomInput);
     const [selectedFeedback, setSelectedFeedback] = useState<string | null>(null);
     const [showBanner, setShowBanner] = useState(false);
@@ -43,7 +43,7 @@ const WisdomDetail = () => {
     // Effect hooks
     useEffect(() => {
         if (wisdom == null) {
-            generateBuddhistWisdom(selectedIntent.value)
+            IntentRepository.getWisdom(selectedIntent)
                 .then((wisdom) => setWisdom(wisdom))
         }
     }, [])
@@ -163,7 +163,7 @@ const WisdomDetail = () => {
 
     // Render components
     const wisdomContent = wisdom != null ? WisdomContent(
-        wisdom, selectedIntentLabel
+        wisdom, selectedIntent.label
     ) : null
     const wisdomReflection = wisdom != null ? WisdomReflection(wisdom) : null
     const wisdomFeedback = wisdom != null ? WisdomFeedback(selectedFeedback, onFeedback) : null

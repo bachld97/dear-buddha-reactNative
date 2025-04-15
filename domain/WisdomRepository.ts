@@ -2,6 +2,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BuddhistWisdom, Bookmark, Intent } from './DomainModels';
 
+// TODO: Rename to BookmarkRepository
 export class WisdomRepository {
     // static simpleDict: Map<string, string> = new Map();
     static kBookmarkKey: string = 'saved_wisdoms'

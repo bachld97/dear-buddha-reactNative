@@ -3,14 +3,9 @@ import {
   SafeAreaProvider,
   useSafeAreaInsets
 } from 'react-native-safe-area-context'
-import { firebase } from "@react-native-firebase/analytics"
+
 
 export default function RootLayout() {
-  const insets = useSafeAreaInsets();
-
-  const defaultAppAnalytics = firebase.analytics();
-  defaultAppAnalytics.logEvent('hello_world')
-
   return (
     <SafeAreaProvider>
       <Stack>
