@@ -13,8 +13,6 @@ export default function WisdomBookmark() {
     const insets = useSafeAreaInsets();
 
     useEffect(() => {
-        AppEventTracker.logScreenView('quote_generator');
-
         loadBookmarks();
     }, []);
 

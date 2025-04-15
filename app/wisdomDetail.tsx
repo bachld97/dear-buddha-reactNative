@@ -14,7 +14,7 @@ import Footer from "@/components/Footer"
 import { BuddhistWisdom } from "@/domain/data/DomainModels"
 import { WisdomRepository } from "@/domain/data/WisdomRepository"
 import { IntentRepository } from "@/domain/data/IntentRepository"
-import { AppEventTracker } from '@/domain/tracking/AppEventTracker';
+import { AppEventTracker, AppEvent } from '@/domain/tracking/AppEventTracker';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Feather from '@expo/vector-icons/Feather';
@@ -51,8 +51,6 @@ const WisdomDetail = () => {
     const fadeAnim = React.useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
-        AppEventTracker.logScreenView('quote_generator');
-
         if (wisdom == null) {
             IntentRepository.getWisdom(selectedIntent)
                 .then((wisdom) => setWisdom(wisdom))
@@ -62,6 +60,9 @@ const WisdomDetail = () => {
     // Event handlers
     const onFeedback = (value: string, positive: boolean) => {
         setSelectedFeedback(value)
+        AppEventTracker.logEvent(AppEvent.selectFeedback, {
+            feedback: value
+        })
     }
 
     const showNotificationBanner = () => {
@@ -84,6 +85,9 @@ const WisdomDetail = () => {
     };
 
     const handleBookmark = (wisdom: BuddhistWisdom) => {
+        AppEventTracker.logEvent(AppEvent.bookmarkWisdom, {
+            author: wisdom.author
+        })
         showNotificationBanner();
         WisdomRepository.bookmarkWisdom(
             wisdom,
@@ -154,7 +158,10 @@ const WisdomDetail = () => {
         return (
             <View style={styles.actionButtons}>
                 <TouchableOpacity style={styles.resetButton}
-                    onPress={() => { router.back() }}
+                    onPress={() => { 
+                        AppEventTracker.logEvent(AppEvent.askAgain);
+                        router.back() 
+                    }}
                 >
                     <Ionicons name="refresh" size={16} color="#4B5563" />
                     <Text style={styles.resetButtonText}>Hỏi lại</Text>
@@ -194,6 +201,9 @@ const WisdomDetail = () => {
                     <TouchableOpacity
                         style={styles.bannerButton}
                         onPress={() => {
+                            AppEventTracker.logEvent(AppEvent.openBookmark,{
+                                source: "banner"
+                            });
                             setShowBanner(false);
                             AppNavigator.openBookmark(router);
                         }}

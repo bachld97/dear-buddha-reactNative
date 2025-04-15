@@ -7,6 +7,7 @@ import {
 import { Colors } from '@/constants/Colors';
 import { AppNavigator } from "@/domain/navigator/AppNavigator"
 import { useRouter } from 'expo-router';
+import { AppEventTracker, AppEvent } from '@/domain/tracking/AppEventTracker';
 
 interface HeaderProps {
   title?: string;
@@ -38,7 +39,12 @@ const Header: React.FC<HeaderProps> = ({
         {showBookmark && (
           <TouchableOpacity
             style={styles.bookmarkButton}
-            onPress={() => AppNavigator.openBookmark(router) }
+            onPress={() => {
+              AppEventTracker.logEvent(AppEvent.openBookmark, {
+                source: "header"
+              });
+              AppNavigator.openBookmark(router)
+            }}
           >
             <Ionicons name="bookmark" size={16} color={Colors.icon} />
           </TouchableOpacity>

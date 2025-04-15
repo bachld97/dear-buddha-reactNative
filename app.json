@@ -36,7 +36,7 @@
                 {
                     "image": "./assets/splash-icon2.png",
                     "resizeMode": "cover",
-                    "backgroundColor": "#669784"
+                    "backgroundColor": "#e5ebe4"
                 }
             ],
             "@react-native-firebase/app",

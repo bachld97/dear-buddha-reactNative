@@ -2,9 +2,11 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Linking } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { Colors } from '@/constants/Colors';
+import { AppEvent, AppEventTracker } from '@/domain/tracking/AppEventTracker';
 
 export const FeedbackSection = () => {
   const handlePress = () => {
+    AppEventTracker.logEvent(AppEvent.feedbackCTA);
     Linking.openURL('https://m.me/j/AbbtegYf3SbXf4k2/');
   };
 

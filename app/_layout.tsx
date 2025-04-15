@@ -1,11 +1,19 @@
-import { Stack } from "expo-router";
+import { Stack, usePathname } from "expo-router";
+import { useEffect } from "react";
 import {
   SafeAreaProvider,
-  useSafeAreaInsets
 } from 'react-native-safe-area-context'
 
+import { AppEventTracker } from "@/domain/tracking/AppEventTracker";
 
 export default function RootLayout() {
+  const pathname = usePathname();
+
+  useEffect(() => {
+    AppEventTracker.logScreenView(pathname);
+  }, [pathname])
+
+
   return (
     <SafeAreaProvider>
       <Stack>

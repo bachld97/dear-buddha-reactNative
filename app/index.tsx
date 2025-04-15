@@ -12,7 +12,7 @@ import { Feather } from "@expo/vector-icons";
 import { Colors } from '@/constants/Colors';
 import Footer from "@/components/Footer";
 
-import { AppEventTracker } from "@/domain/tracking/AppEventTracker";
+import { AppEventTracker, AppEvent } from "@/domain/tracking/AppEventTracker";
 import { IntentRepository } from "@/domain/data/IntentRepository";
 import { Intent } from "@/domain/data/DomainModels"
 import { AppNavigator } from "@/domain/navigator/AppNavigator";
@@ -23,8 +23,6 @@ export default function Index() {
   const [selectedIntent, setSelectedIntent] = useState<Intent | null>(null);
 
   useEffect(() => {
-    AppEventTracker.logScreenView('home');
-
     if (listIntents == null) {
       IntentRepository.getIntents()
         .then((intents) => setListIntents(intents));
@@ -37,8 +35,8 @@ export default function Index() {
 
     const handleSelectIntent = (intent: Intent) => {
       setSelectedIntent(intent)
-      AppEventTracker.logEvent("select_intent", {
-        "name": intent.intentType
+      AppEventTracker.logEvent(AppEvent.selectIntent, {
+        intentType: intent.intentType
       })
     };
 
@@ -82,6 +80,9 @@ export default function Index() {
 
   // Action handler
   const handleAskBuddha = () => {
+    AppEventTracker.logEvent(AppEvent.createWisdom, {
+      intentType: selectedIntent?.intentType || "none"
+    });
     AppNavigator.openWisdomScreen(router, selectedIntent);
   };
 
