@@ -8,13 +8,13 @@ import {
     Animated
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useNavigation, useRoute } from '@react-navigation/native';
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 
 import { BuddhistWisdom } from "@/domain/data/DomainModels"
 import { WisdomRepository } from "@/domain/data/WisdomRepository"
 import { IntentRepository } from "@/domain/data/IntentRepository"
+import { AppEventTracker } from '@/domain/tracking/AppEventTracker';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Feather from '@expo/vector-icons/Feather';
@@ -51,6 +51,8 @@ const WisdomDetail = () => {
     const fadeAnim = React.useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
+        AppEventTracker.logScreenView('quote_generator');
+
         if (wisdom == null) {
             IntentRepository.getWisdom(selectedIntent)
                 .then((wisdom) => setWisdom(wisdom))

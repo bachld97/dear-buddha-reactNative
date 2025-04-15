@@ -23,6 +23,8 @@ export default function Index() {
   const [selectedIntent, setSelectedIntent] = useState<Intent | null>(null);
 
   useEffect(() => {
+    AppEventTracker.logScreenView('home');
+
     if (listIntents == null) {
       IntentRepository.getIntents()
         .then((intents) => setListIntents(intents));
