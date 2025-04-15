@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import Header from '../components/Header';
-import { WisdomRepository } from '@/domain/WisdomRepository';
-import { Bookmark } from '@/domain/DomainModels';
+import { WisdomRepository } from '@/domain/data/WisdomRepository';
+import { Bookmark } from '@/domain/data/DomainModels';
 import { Ionicons } from '@expo/vector-icons';
 
 

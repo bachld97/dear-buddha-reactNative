@@ -16,7 +16,8 @@ export default function RootLayout() {
         />
         <Stack.Screen name="wisdomDetail"
           options={{
-            title: 'Ask Budhha', headerShown: false
+            title: 'Ask Budhha',
+            headerShown: false
           }}
         />
         <Stack.Screen name="wisdomBookmark"

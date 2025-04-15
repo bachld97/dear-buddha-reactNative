@@ -7,15 +7,15 @@ import {
  } from "react-native";
 import Header from "@/components/Header"
 import { useState, useEffect } from 'react';
-import { useNavigation } from "expo-router";
+import { useRouter } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 import { Colors } from '@/constants/Colors';
 import Footer from "@/components/Footer";
 
-import { AppEventTracker } from "@/tracking/AppEventTracker";
-import { IntentRepository } from "@/domain/IntentRepository";
-import { Intent } from "@/domain/DomainModels"
-
+import { AppEventTracker } from "@/domain/tracking/AppEventTracker";
+import { IntentRepository } from "@/domain/data/IntentRepository";
+import { Intent } from "@/domain/data/DomainModels"
+import { AppNavigator } from "@/domain/navigator/AppNavigator";
 
 
 export default function Index() {
@@ -29,7 +29,7 @@ export default function Index() {
     }
   })
 
-  const navigation = useNavigation()
+  const router = useRouter();
 
   const createIntentsGrid = (intents: [Intent] | null): any => {
 
@@ -80,9 +80,7 @@ export default function Index() {
 
   // Action handler
   const handleAskBuddha = () => {
-    navigation.navigate('wisdomDetail', {
-      selectedIntent: selectedIntent,
-    });
+    AppNavigator.openWisdomScreen(router, selectedIntent);
   };
 
   return (

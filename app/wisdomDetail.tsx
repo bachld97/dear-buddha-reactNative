@@ -12,13 +12,15 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 
-import { BuddhistWisdom } from "@/domain/DomainModels"
-import { WisdomRepository } from "@/domain/WisdomRepository"
-import { IntentRepository } from "@/domain/IntentRepository"
+import { BuddhistWisdom } from "@/domain/data/DomainModels"
+import { WisdomRepository } from "@/domain/data/WisdomRepository"
+import { IntentRepository } from "@/domain/data/IntentRepository"
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Feather from '@expo/vector-icons/Feather';
 import { Colors } from '@/constants/Colors';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { AppNavigator } from '@/domain/navigator/AppNavigator';
 
 const FEEDBACK_OPTIONS = [
     { emoji: "🙏", label: "Rất giúp ích", value: "very_helpful", positive: true },
@@ -29,18 +31,25 @@ const FEEDBACK_OPTIONS = [
 
 const WisdomDetail = () => {
     // Navigation and route hooks
-    const route = useRoute();
-    const navigation = useNavigation();
+    const router = useRouter();
     const insets = useSafeAreaInsets();
 
-    // State hooks
-    const { selectedIntent, wisdomInput } = route.params;
+    // Init constructor
+    const { selectedIntentJSON, wisdomInputJSON } = useLocalSearchParams();
+    const selectedIntent = selectedIntentJSON != null
+        ? JSON.parse(selectedIntentJSON) || IntentRepository.defaultIntent()
+        : IntentRepository.defaultIntent();
+
+    const wisdomInput = wisdomInputJSON != null
+        ? JSON.parse(wisdomInputJSON)
+        : null;
+
+    // Hooks
     const [wisdom, setWisdom] = useState<BuddhistWisdom | null>(wisdomInput);
     const [selectedFeedback, setSelectedFeedback] = useState<string | null>(null);
     const [showBanner, setShowBanner] = useState(false);
     const fadeAnim = React.useRef(new Animated.Value(0)).current;
 
-    // Effect hooks
     useEffect(() => {
         if (wisdom == null) {
             IntentRepository.getWisdom(selectedIntent)
@@ -143,9 +152,7 @@ const WisdomDetail = () => {
         return (
             <View style={styles.actionButtons}>
                 <TouchableOpacity style={styles.resetButton}
-                    onPress={() => {
-                        navigation.goBack()
-                    }}
+                    onPress={() => { router.back() }}
                 >
                     <Ionicons name="refresh" size={16} color="#4B5563" />
                     <Text style={styles.resetButtonText}>Hỏi lại</Text>
@@ -186,7 +193,7 @@ const WisdomDetail = () => {
                         style={styles.bannerButton}
                         onPress={() => {
                             setShowBanner(false);
-                            navigation.navigate('wisdomBookmark');
+                            AppNavigator.openBookmark(router);
                         }}
                     >
                         <Text style={styles.bannerButtonText}>Xem ngay</Text>

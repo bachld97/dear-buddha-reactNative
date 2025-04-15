@@ -1,11 +1,12 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { useNavigation } from '@react-navigation/native';
 import {
   SafeAreaView
 } from 'react-native-safe-area-context'
 import { Colors } from '@/constants/Colors';
+import { AppNavigator } from "@/domain/navigator/AppNavigator"
+import { useRouter } from 'expo-router';
 
 interface HeaderProps {
   title?: string;
@@ -18,7 +19,7 @@ const Header: React.FC<HeaderProps> = ({
   showBookmark = true,
   showBack = false
 }) => {
-  const navigation = useNavigation();
+  const router = useRouter();
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
@@ -27,7 +28,7 @@ const Header: React.FC<HeaderProps> = ({
           {showBack && (
             <TouchableOpacity
               style={styles.backButton}
-              onPress={() => navigation.goBack()}
+              onPress={() => router.back()}
             >
               <Ionicons name="chevron-back" size={16} color={Colors.icon} />
             </TouchableOpacity>
@@ -37,7 +38,7 @@ const Header: React.FC<HeaderProps> = ({
         {showBookmark && (
           <TouchableOpacity
             style={styles.bookmarkButton}
-            onPress={() => navigation.navigate('wisdomBookmark')}
+            onPress={() => AppNavigator.openBookmark(router) }
           >
             <Ionicons name="bookmark" size={16} color={Colors.icon} />
           </TouchableOpacity>

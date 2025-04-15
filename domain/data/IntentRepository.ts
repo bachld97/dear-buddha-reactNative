@@ -17,10 +17,16 @@ export class IntentRepository {
 
     }
 
+    static defaultIntent(): Intent {
+        return { intentType: "calm", label: "Bình yên", emoji: "😌" }
+    }
+
     static async getWisdom(
-        intent: Intent
+        intent: Intent | null
     ): Promise<BuddhistWisdom> {
-        const intentType = intent.intentType;
+        const intentType = (intent != null)
+            ? intent.intentType
+            : IntentRepository.defaultIntent().intentType;
 
         return new Promise((resolve) => {
             // Default to calm if intent is not recognized
