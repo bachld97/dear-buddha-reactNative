@@ -5,7 +5,6 @@ import Header from '../components/Header';
 import { WisdomRepository } from '@/domain/data/WisdomRepository';
 import { Bookmark } from '@/domain/data/DomainModels';
 import { Ionicons } from '@expo/vector-icons';
-import { AppEventTracker } from '@/domain/tracking/AppEventTracker';
 
 
 export default function WisdomBookmark() {

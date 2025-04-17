@@ -45,6 +45,8 @@ const WisdomDetail = () => {
         : null;
 
     // Hooks
+    const [tracker] = useState(AppEventTracker.createWisdomTracker())
+
     const [wisdom, setWisdom] = useState<BuddhistWisdom | null>(wisdomInput);
     const [selectedFeedback, setSelectedFeedback] = useState<string | null>(null);
     const [showBanner, setShowBanner] = useState(false);
@@ -53,16 +55,17 @@ const WisdomDetail = () => {
     useEffect(() => {
         if (wisdom == null) {
             IntentRepository.getWisdom(selectedIntent)
-                .then((wisdom) => setWisdom(wisdom))
+                .then((wisdom) => {
+                    setWisdom(wisdom)
+                    tracker.logShowWisdom(wisdom);
+                })
         }
     }, [])
 
     // Event handlers
     const onFeedback = (value: string, positive: boolean) => {
         setSelectedFeedback(value)
-        AppEventTracker.logEvent(AppEvent.selectFeedback, {
-            feedback: value
-        })
+        tracker.logFeedback(value)
     }
 
     const showNotificationBanner = () => {
@@ -85,9 +88,7 @@ const WisdomDetail = () => {
     };
 
     const handleBookmark = (wisdom: BuddhistWisdom) => {
-        AppEventTracker.logEvent(AppEvent.bookmarkWisdom, {
-            author: wisdom.author
-        })
+        tracker.logBookmark(wisdom)
         showNotificationBanner();
         WisdomRepository.bookmarkWisdom(
             wisdom,
@@ -159,7 +160,7 @@ const WisdomDetail = () => {
             <View style={styles.actionButtons}>
                 <TouchableOpacity style={styles.resetButton}
                     onPress={() => { 
-                        AppEventTracker.logEvent(AppEvent.askAgain);
+                        tracker.logAskAgain();
                         router.back() 
                     }}
                 >

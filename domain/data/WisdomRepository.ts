@@ -5,7 +5,7 @@ import { BuddhistWisdom, Bookmark, Intent } from './DomainModels';
 // TODO: Rename to BookmarkRepository
 export class WisdomRepository {
     // static simpleDict: Map<string, string> = new Map();
-    static kBookmarkKey: string = 'saved_wisdoms'
+    static kBookmarkKey: string = 'saved_wisdoms.02'
 
     constructor() {
 
@@ -53,7 +53,7 @@ export class WisdomRepository {
         const ts = new Date().toISOString();
         this.addItemToKey(
             this.kBookmarkKey, JSON.stringify({
-                'id': ts,
+                'id': wisdom.id,
                 'ts': ts,
                 'wisdom': wisdom,
                 'intent': intent

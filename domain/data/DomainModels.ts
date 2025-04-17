@@ -8,6 +8,7 @@ export interface Intent {
 }
 
 export interface BuddhistWisdom {
+    id: String
     quote: string;
     author: string;
     reflection: string;

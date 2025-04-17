@@ -1,12 +1,15 @@
 import {
     firebase
 } from "@react-native-firebase/analytics"
+import { BuddhistWisdom } from "../data/DomainModels"
 
 export namespace AppEvent {
 
     export const selectIntent = "select_intent" 
 
     export const createWisdom = "generate_wisdom"
+
+    export const showWisdom = "show_wisdom"
 
     export const bookmarkWisdom = "bookmark_wisdom"
 
@@ -17,6 +20,8 @@ export namespace AppEvent {
     export const askAgain = "ask_again"
 
     export const feedbackCTA = "feedback_cta"
+
+    export const completeTeachingFlow = "complete_teaching_flow"
 
 }
 
@@ -60,4 +65,59 @@ export class AppEventTracker {
             ? mapping[routeName]
             : routeName;
     }
+
+    static createWisdomTracker(): WisdomDetailTracker {
+        return new WisdomDetailTracker();
+    }
+}
+
+export class WisdomDetailTracker {
+
+    wisdom: BuddhistWisdom | null = null
+    lastSelectedFeedback: string | null = null
+    didSubmit: boolean = false
+
+    logShowWisdom(wisdom: BuddhistWisdom) {
+        this.wisdom = wisdom;
+        AppEventTracker.logEvent(AppEvent.showWisdom, {
+            id: wisdom.id,
+            author: wisdom.author
+        });
+    }
+    
+    logFeedback(value: string) {
+        this.lastSelectedFeedback = value;
+        AppEventTracker.logEvent(AppEvent.selectFeedback, {
+            feedback: value
+        });
+    }
+
+    logBookmark(wisdom: BuddhistWisdom) {
+        AppEventTracker.logEvent(AppEvent.bookmarkWisdom, {
+            author: wisdom.id
+        });
+        this.checkLogCompleteTeaching();
+    }
+
+    logAskAgain() {
+        AppEventTracker.logEvent(AppEvent.askAgain);;
+        this.checkLogCompleteTeaching();
+    }
+
+    private checkLogCompleteTeaching() {
+        if (!this.didSubmit && this.lastSelectedFeedback && this.wisdom) {
+            this.logCompleteTeaching();
+            this.didSubmit = true;
+        }
+    }
+
+    logCompleteTeaching() {
+        if (this.wisdom) {
+            AppEventTracker.logEvent(AppEvent.completeTeachingFlow, {
+                feedback: this.lastSelectedFeedback,
+                wisdom: this.wisdom.id
+            });
+        }
+    }
+
 }
