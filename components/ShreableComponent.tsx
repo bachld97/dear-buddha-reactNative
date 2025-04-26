@@ -21,7 +21,7 @@ const ShareableComponent: React.FC<ShareableComponentProp> = props => {
     const captureThenShare = async () => {
         try {
             const url = await captureRef(imageRef, {
-                quality: 0.8,
+                quality: 1,
             });
 
             const shareOptions = {
@@ -43,7 +43,7 @@ const ShareableComponent: React.FC<ShareableComponentProp> = props => {
         )
     }, [])
 
-    const appIcon = require('@/assets/adaptive-icon2.png')
+    // const appIcon = require('@/assets/adaptive-icon2.png')
 
     return (
         <View ref={imageRef} collapsable={false} style={styles.container}>
@@ -63,7 +63,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         width: 360,
         height: 640,
-
         position: "absolute",
         left: -9999,
     },

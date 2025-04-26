@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
   },
   container: {
     paddingHorizontal: 16,
+    paddingTop: 8,
     paddingBottom: 8,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
   },
   bookmarkButton: {
     paddingRight: 8,
-    paddingBottom: 4
+    paddingTop: 8,
   },
 });
 
