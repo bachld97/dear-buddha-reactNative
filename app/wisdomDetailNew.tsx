@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import {
   View,
   Text,
@@ -20,6 +20,7 @@ import Feather from '@expo/vector-icons/Feather';
 import { Colors } from '@/constants/Colors';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { AppNavigator } from '@/domain/navigator/AppNavigator';
+import ShareableComponent from '@/components/ShreableComponent';
 
 const FEEDBACK_OPTIONS = [
   { emoji: "🙏", label: "Rất giúp ích", value: "very_helpful", positive: true },
@@ -42,11 +43,10 @@ const WisdomDetailNew = () => {
   // Hooks
   const [tracker] = useState(AppEventTracker.createWisdomTracker())
 
-  const [wisdom, setWisdom] = useState<BuddhistWisdom | null>(wisdomInput);
+  const [wisdom] = useState<BuddhistWisdom | null>(wisdomInput);
   const [selectedFeedback, setSelectedFeedback] = useState<string | null>(null);
-  const [showBanner, setShowBanner] = useState(false);
-  const fadeAnim = React.useRef(new Animated.Value(0)).current;
-
+  const [isSharing, setIsSharing] = useState(false);
+  
   const authorImage = {
     uri: wisdom != null && wisdom.author.portraitUrl
   };
@@ -72,6 +72,8 @@ const WisdomDetailNew = () => {
   const handleShare = (wisdom: BuddhistWisdom) => {
     // tracker.logBookmark(wisdom)
     // BookmarkRepository.bookmarkWisdomV2(wisdom)
+    console.log('set share true')
+    setIsSharing(true);
   }
 
   const handleAskAgain = () => {
@@ -170,32 +172,24 @@ const WisdomDetailNew = () => {
     () => { handleAskAgain() }
   ) : null
 
-  const bannerView = (title: string, subtitle: string) => {
-    return (
-      <Animated.View style={[styles.banner, {
-        opacity: fadeAnim,
-        top: insets.top
-      }]}>
-        <View style={styles.bannerContent}>
-          <View style={styles.bannerTextContainer}>
-            <Text style={styles.bannerTitle}>{title}</Text>
-            <Text style={styles.bannerSubtitle}>{subtitle}</Text>
+  const shareView = () => {
+    return <ShareableComponent>
+      <ImageBackground source={authorImage}
+        resizeMode="cover"
+        style={styles.backgroundImage}>
+
+        <View style={styles.contentContainer}>
+          <View style={styles.wisdomContainer}>
+            {wisdomContent}
           </View>
-          <TouchableOpacity
-            style={styles.bannerButton}
-            onPress={() => {
-              AppEventTracker.logEvent(AppEvent.openBookmark, {
-                source: "banner"
-              });
-              setShowBanner(false);
-              AppNavigator.openBookmark(router);
-            }}
-          >
-            <Text style={styles.bannerButtonText}>Xem ngay</Text>
-          </TouchableOpacity>
         </View>
-      </Animated.View>
-    );
+
+      </ImageBackground>
+    </ShareableComponent>
+  }
+
+  if (isSharing) {
+    setTimeout(() => setIsSharing(false), 1000);
   }
 
   return (
@@ -203,10 +197,7 @@ const WisdomDetailNew = () => {
 
       <Header title="Hỏi Phật" showBookmark={true} />
 
-      {showBanner && bannerView(
-        'Đã lưu lời Phật dạy',
-        'Bạn có thể xem lại trong phần Lời dạy đã lưu'
-      )}
+      {isSharing && shareView()}
 
       <ImageBackground source={authorImage}
         resizeMode="cover"
@@ -387,6 +378,8 @@ const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
     justifyContent: 'center',
+    width: '100%',
+    height: '100%'
   },
 })
 

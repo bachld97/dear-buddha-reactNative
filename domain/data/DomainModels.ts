@@ -17,7 +17,8 @@ export interface BuddhistWisdom {
     id: string
     quote: string
     author: Author
-    reflection: string
+    reflection: string,
+    intent: Intent | null
 }
 
 export interface Bookmark {

@@ -3,16 +3,14 @@ import {
   ImageBackground,
   Text, View,
   TouchableOpacity,
-  Animated,
-  useAnimatedValue,
 } from "react-native";
 
 import { AppNavigator } from "@/domain/navigator/AppNavigator";
 import {
   useSafeAreaInsets
 } from 'react-native-safe-area-context'
-import { useEffect, useLayoutEffect, useState } from "react";
 import { useRouter } from "expo-router";
+import { Colors } from '@/constants/Colors';
 
 import { EntranceAnimatorWrap } from "@/components/EntranceAnimatorWrap";
 
@@ -59,7 +57,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   btn: {
-    backgroundColor: '#e5ebe4',
+    backgroundColor: Colors.appGreen,
     borderRadius: 50,
     justifyContent: 'center',
     alignContent: 'center',

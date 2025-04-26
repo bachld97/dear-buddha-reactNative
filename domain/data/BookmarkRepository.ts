@@ -69,7 +69,7 @@ export class BookmarkRepository {
                 'id': wisdom.id,
                 'ts': ts,
                 'wisdom': wisdom,
-                'intent': wisdom.mood
+                'intent': wisdom.intent
             })
         )
     }

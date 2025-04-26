@@ -39,9 +39,12 @@ export class WisdomRepository {
             // Randomly select a wisdom
             const randomIndex = Math.floor(Math.random() * collection.length);
 
+            const result = collection[randomIndex];
+            result.intent = intent;
+
             // Simulate a small delay to make it feel more natural
             setTimeout(() => {
-                resolve(collection[randomIndex]);
+                resolve(result);
             }, 500);
         });
 

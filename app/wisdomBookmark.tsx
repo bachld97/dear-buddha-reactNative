@@ -91,7 +91,7 @@ export default function WisdomBookmark() {
                                 <Text style={styles.quoteText}>"{bookmark.wisdom.quote}"</Text>
                             </View>
                             <View style={styles.authorSection}>
-                                <Text style={styles.authorText}>— {bookmark.wisdom.author}</Text>
+                                <Text style={styles.authorText}>— {bookmark.wisdom.author.fullName}</Text>
                             </View>
                             <View style={styles.reflectionSection}>
                                 <Text style={styles.reflectionLabel}>Suy ngẫm:</Text>
