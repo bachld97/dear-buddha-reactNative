@@ -12,8 +12,8 @@ import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 
 import { BuddhistWisdom } from "@/domain/data/DomainModels"
+import { BookmarkRepository } from "@/domain/data/BookmarkRepository"
 import { WisdomRepository } from "@/domain/data/WisdomRepository"
-import { IntentRepository } from "@/domain/data/IntentRepository"
 import { AppEventTracker, AppEvent } from '@/domain/tracking/AppEventTracker';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -37,8 +37,8 @@ const WisdomDetail = () => {
     // Init constructor
     const { selectedIntentJSON, wisdomInputJSON } = useLocalSearchParams();
     const selectedIntent = selectedIntentJSON != null
-        ? JSON.parse(selectedIntentJSON) || IntentRepository.defaultIntent()
-        : IntentRepository.defaultIntent();
+        ? JSON.parse(selectedIntentJSON) || WisdomRepository.defaultIntent()
+        : WisdomRepository.defaultIntent();
 
     const wisdomInput = wisdomInputJSON != null
         ? JSON.parse(wisdomInputJSON)
@@ -54,7 +54,7 @@ const WisdomDetail = () => {
 
     useEffect(() => {
         if (wisdom == null) {
-            IntentRepository.getWisdom(selectedIntent)
+            WisdomRepository.getWisdom(selectedIntent)
                 .then((wisdom) => {
                     setWisdom(wisdom)
                     tracker.logShowWisdom(wisdom);
@@ -90,7 +90,7 @@ const WisdomDetail = () => {
     const handleBookmark = (wisdom: BuddhistWisdom) => {
         tracker.logBookmark(wisdom)
         showNotificationBanner();
-        WisdomRepository.bookmarkWisdom(
+        BookmarkRepository.bookmarkWisdom(
             wisdom,
             selectedIntent
         )

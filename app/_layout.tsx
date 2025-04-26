@@ -22,9 +22,20 @@ export default function RootLayout() {
             title: '', headerShown: false
           }}
         />
+        <Stack.Screen name="moodInput"
+          options={{
+            title: '', headerShown: false
+          }}
+        />
         <Stack.Screen name="wisdomDetail"
           options={{
             title: 'Ask Budhha',
+            headerShown: false
+          }}
+        />
+        <Stack.Screen name="wisdomDetailNew"
+          options={{
+            title: 'Ask Budhha new',
             headerShown: false
           }}
         />

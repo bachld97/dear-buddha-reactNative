@@ -57,8 +57,10 @@ export class AppEventTracker {
 
     static mapRouteNameIntoHumanName(routeName: string) {
         const mapping: Record<string, string> = {
-            "/": "Home",
+            "/": "Splash",
+            "/moodInput": "Home",
             "/wisdomDetail": "WisdomDetail",
+            "/wisdomDetailNew": "WisdomDetail_V2",
             "/wisdomBookmark": "WisdomBookmark"
         }
         return routeName in mapping

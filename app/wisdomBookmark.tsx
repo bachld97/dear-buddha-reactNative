@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Header from '../components/Header';
-import { WisdomRepository } from '@/domain/data/WisdomRepository';
+import { BookmarkRepository } from '@/domain/data/BookmarkRepository';
 import { Bookmark } from '@/domain/data/DomainModels';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -17,7 +17,7 @@ export default function WisdomBookmark() {
 
     const loadBookmarks = async () => {
         try {
-            const bookmarks = await WisdomRepository.getBookmarks();
+            const bookmarks = await BookmarkRepository.getBookmarks();
             setBookmarks(bookmarks);
         } catch (error) {
             console.error('Error loading bookmarks:', error);
@@ -39,7 +39,7 @@ export default function WisdomBookmark() {
                     style: "destructive",
                     onPress: async () => {
                         try {
-                            const afterUpdate = await WisdomRepository.deleteBookmark(bookmark)
+                            const afterUpdate = await BookmarkRepository.deleteBookmark(bookmark)
                             setBookmarks(afterUpdate);
                         } catch (error) {
                             console.error('Error deleting bookmark:', error);

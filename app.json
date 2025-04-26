@@ -32,22 +32,6 @@
         },
         "plugins": [
             "expo-router",
-            [
-                "expo-splash-screen",
-                {
-                    "resizeMode": "cover",
-                    "enableFullScreenImage_legacy": true,
-                    "ios": {
-                        "image": "./assets/splash-icon2.png",
-                        "backgroundColor": "#e5ebe4"
-                    },
-                    "android": {
-                        "image": "./assets/splash-icon2.png",
-                        "backgroundColor": "#e5ebe4",
-                        "imageWidth": 300
-                    }
-                }
-            ],
             "@react-native-firebase/app",
             "@react-native-firebase/crashlytics",
             [

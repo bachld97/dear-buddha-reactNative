@@ -59,7 +59,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
   },
   container: {
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingBottom: 8,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -73,12 +74,13 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   title: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '600',
     color: Colors.textTitle,
   },
   bookmarkButton: {
-    padding: 8,
+    paddingRight: 8,
+    paddingBottom: 4
   },
 });
 
