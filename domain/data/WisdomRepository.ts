@@ -45,7 +45,7 @@ export class WisdomRepository {
             // Simulate a small delay to make it feel more natural
             setTimeout(() => {
                 resolve(result);
-            }, 500);
+            }, 100);
         });
 
     }
