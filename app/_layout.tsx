@@ -5,6 +5,7 @@ import {
 } from 'react-native-safe-area-context'
 
 import { AppEventTracker } from "@/domain/tracking/AppEventTracker";
+import { KeyboardProvider } from "react-native-keyboard-controller";
 
 export default function RootLayout() {
   const pathname = usePathname();
@@ -15,6 +16,7 @@ export default function RootLayout() {
 
 
   return (
+    <KeyboardProvider>
     <SafeAreaProvider>
       <Stack>
         <Stack.Screen name="index"
@@ -51,5 +53,6 @@ export default function RootLayout() {
         />
       </Stack>
     </SafeAreaProvider>
+    </KeyboardProvider>
   );
 }

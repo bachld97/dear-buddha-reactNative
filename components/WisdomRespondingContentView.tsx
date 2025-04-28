@@ -4,7 +4,8 @@ import {
   TouchableOpacity,
   Text,
   View,
-  Switch
+  Switch,
+  KeyboardAvoidingView
 } from 'react-native';
 import { useState } from 'react';
 import { Keyboard } from 'react-native';

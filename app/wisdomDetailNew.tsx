@@ -1,8 +1,14 @@
-import React, { useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import {
+  Text,
   View,
   StyleSheet,
+  ScrollView,
+  TouchableOpacity
 } from 'react-native';
+import { Feather } from '@expo/vector-icons';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
+
 import { useSafeAreaInsets, SafeAreaView } from 'react-native-safe-area-context';
 import Header from "@/components/Header"
 
@@ -18,9 +24,11 @@ import WisdomCardView from '@/components/ByScreen/WisdomDetail/WisdomCardView';
 import WisdomFeedbackView from '@/components/ByScreen/WisdomDetail/WisdomFeedbackView';
 import BannerView from '@/components/BannerView';
 import WisdomCTAGroupView from '@/components/ByScreen/WisdomDetail/WisdomCTAGroupView';
-import WisdomRespondingView from '@/components/ByScreen/WisdomDetail/WisdomRespondingView';
+import { MyStyle } from '@/constants/Styles';
+import WisdomRespondingContentView from '@/components/WisdomRespondingContentView';
 
 const WisdomDetailNew = () => {
+
   // Navigation and route hooks
   const router = useRouter();
   const insets = useSafeAreaInsets();
@@ -36,6 +44,11 @@ const WisdomDetailNew = () => {
 
   const [wisdom] = useState<BuddhistWisdom | null>(wisdomInput);
 
+  // Respond
+  const [isTextInputFocused, setIsTextInputFocused] = useState(false);
+  const [isShareEnabled, toggleShareEnabled] = useState(false);
+  const [responseText, onChangeResponseText] = useState('');
+
   // Transient state check
   const [isSharing, setIsSharing] = useState(false);
   const [showBookmarkBanner, setShowBookmarkBanner] = useState(false);
@@ -49,8 +62,7 @@ const WisdomDetailNew = () => {
   }
 
   const handleResponse = (wisdom: BuddhistWisdom) => {
-    // setIsResponding(true)
-    AppNavigator.openWisdomResponseStandalone(router)
+    setIsResponding(!isResponding)
   }
 
   const handleShare = (wisdom: BuddhistWisdom) => {
@@ -101,23 +113,47 @@ const WisdomDetailNew = () => {
       }
 
       {/* Fixed views */}
-      <WisdomCardView wisdom={wisdom} />
-      <WisdomFeedbackView
-        isCompact={false}
-        tracker={tracker} />
+      <KeyboardAwareScrollView 
+        enabled={true}
+        disableScrollOnKeyboardHide={false}
+        contentContainerStyle={{ flexGrow: 1 }}
+      >
+        <WisdomCardView wisdom={wisdom} />
 
-      <WisdomRespondingView
-        isVisible={isResponding}
-        requestClose={() => {
-          setIsResponding(false);
-        }}/>
+        <WisdomFeedbackView
+          isCompact={false}
+          tracker={tracker} />
 
-      <WisdomCTAGroupView
-        onResponse={() => { handleResponse(wisdom) }}
-        onBookmark={() => { handleBookmark(wisdom) }}
-        onShare={() => { handleShare(wisdom) }}
-        onAskAgain={() => { handleAskAgain() }}
-      />
+        <WisdomCTAGroupView
+          isResponding={isResponding}
+          onResponse={() => { handleResponse(wisdom) }}
+          onBookmark={() => { handleBookmark(wisdom) }}
+          onShare={() => { handleShare(wisdom) }}
+          onAskAgain={() => { handleAskAgain() }}
+        />
+
+        {isResponding &&
+          <View style={MyStyle.screenContainer}>
+            <WisdomRespondingContentView
+              isCompact={false}
+              isTextInputFocused={isTextInputFocused}
+              setIsTextInputFocused={setIsTextInputFocused}
+              responseText={responseText}
+              onChangeResponseText={onChangeResponseText}
+              isShareEnabled={isShareEnabled}
+              toggleShareEnabled={toggleShareEnabled}
+            />
+          </View>
+        }
+
+      </KeyboardAwareScrollView>
+
+      <TouchableOpacity style={styles.askAgainButton}
+        onPress={handleAskAgain}
+      >
+        <Feather name="chevron-left" size={16} color={Colors.icon} />
+        <Text style={styles.askAgainButtonText}>Hỏi lại</Text>
+      </TouchableOpacity>
 
     </SafeAreaView>
   )
@@ -128,6 +164,18 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.background,
   },
+  askAgainButton: {
+    marginTop: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  askAgainButtonText: {
+    marginLeft: 6,
+    color: '#4B5563',
+    fontSize: 13,
+    fontWeight: 400
+  }
 })
 
 export default WisdomDetailNew;

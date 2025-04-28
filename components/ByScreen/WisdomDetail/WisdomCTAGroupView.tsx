@@ -8,9 +8,12 @@ import {
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { Colors } from '@/constants/Colors';
+import { ViewProps } from 'react-native/Libraries/Components/View/ViewPropTypes';
 
 type WisdomCTAProps = {
+  isResponding: boolean
   onResponse: () => void
+
   onBookmark: () => void
   onShare: () => void
   onAskAgain: () => void
@@ -19,35 +22,29 @@ type WisdomCTAProps = {
 const WisdomCTAGroupView: React.FC<WisdomCTAProps> = props => {
 
   return (
-    <>
-      <View style={styles.actionButtons}>
-        <CommonCTAButton onPress={props.onResponse}
-          apperance={{
-            text: 'Phản hồi',
-            icon: 'book',
-          }} selectedAppearance={null} />
+    <View style={styles.actionButtons}>
+      <CommonCTAButton onPress={props.onResponse}
+        isSelected={props.isResponding}
+        apperance={{
+          text: 'Phản hồi',
+          icon: 'book',
+        }} selectedAppearance={null} />
 
-        <CommonCTAButton onPress={props.onBookmark}
-          apperance={{
-            text: 'Lưu lại',
-            icon: 'bookmark',
-          }} selectedAppearance={null} />
+      <CommonCTAButton onPress={props.onBookmark}
+        isSelected={false}
+        apperance={{
+          text: 'Lưu lại',
+          icon: 'bookmark',
+        }} selectedAppearance={null} />
 
-        <CommonCTAButton onPress={props.onShare}
-          apperance={{
-            text: 'Chia sẻ',
-            icon: 'share',
-          }} selectedAppearance={null} />
+      <CommonCTAButton onPress={props.onShare}
+        isSelected={false}
+        apperance={{
+          text: 'Chia sẻ',
+          icon: 'share',
+        }} selectedAppearance={null} />
 
-      </View >
-
-      <TouchableOpacity style={styles.askAgainButton}
-        onPress={props.onAskAgain}
-      >
-        <Feather name="chevron-left" size={16} color={Colors.icon} />
-        <Text style={styles.askAgainButtonText}>Hỏi lại</Text>
-      </TouchableOpacity>
-    </>
+    </View >
   )
 }
 
@@ -58,18 +55,7 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20
   },
-  askAgainButton: {
-    marginTop: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  askAgainButtonText: {
-    marginLeft: 6,
-    color: '#4B5563',
-    fontSize: 13,
-    fontWeight: 400
-  }
+ 
 })
 
 export default WisdomCTAGroupView;

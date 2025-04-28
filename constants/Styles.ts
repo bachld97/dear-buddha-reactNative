@@ -10,7 +10,12 @@ export const MyStyle = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
-
+  backgroundImage: {
+    flex: 1,
+    justifyContent: 'center',
+    width: '100%',
+    height: '100%'
+  },
   wisdomContainer: {
     backgroundColor: "#fefefee0",
     borderRadius: 12,

@@ -4,7 +4,7 @@ import { BuddhistWisdom, Bookmark, Intent } from './DomainModels';
 
 export class BookmarkRepository {
     // static simpleDict: Map<string, string> = new Map();
-    static kBookmarkKey: string = 'saved_wisdoms.02'
+    static kBookmarkKey: string = 'saved_wisdoms.03'
 
     constructor() {
 

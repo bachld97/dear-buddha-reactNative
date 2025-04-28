@@ -17,6 +17,7 @@ type CommonCTAButtonProps = {
     onPress: () => void
     apperance: ButtonAppearance,
     selectedAppearance: ButtonAppearance | null
+    isSelected: boolean
 }
 
 export const CommonCTAButton: React.FC<CommonCTAButtonProps> = props => {
@@ -34,13 +35,18 @@ export const CommonCTAButton: React.FC<CommonCTAButtonProps> = props => {
 
     return (
         <TouchableOpacity
-            style={styles.ctaSingleButton}
+            style={[
+                styles.ctaSingleButton,
+                props.isSelected && styles.ctaSingleButtonSelected
+            ]}
             onPress={onPress}
         >
             <Feather name={state.icon} size={20}
-                color={Colors.icon} />
+                color={props.isSelected ? Colors.textOnColor : Colors.icon} />
 
-            <Text style={styles.ctaSingleButtonText}>
+            <Text style={[
+                styles.ctaSingleButtonText, props.isSelected && styles.ctaSingleButtonTextSelected
+            ]}>
                 {state.text}
             </Text>
 
@@ -62,7 +68,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#fbfcf6',
         gap: 8
     },
+    ctaSingleButtonSelected: {
+        borderColor: Colors.appGreen,
+        backgroundColor: Colors.appGreen,
+    },
     ctaSingleButtonText: {
         color: Colors.icon
+    },
+    ctaSingleButtonTextSelected: {
+        color: Colors.textOnColor
     },
 })
