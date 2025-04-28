@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     askButtonDisabled: {
-        backgroundColor: '#9CA3AF',
+        backgroundColor: Colors.ctaBackgroundDisabled,
     },
     askingContainer: {
         flexDirection: 'row',

@@ -39,6 +39,11 @@ export default function RootLayout() {
             headerShown: false
           }}
         />
+        <Stack.Screen name="wisdomRespondStandalone"
+          options={{
+            title: '', headerShown: false
+          }}
+        />
         <Stack.Screen name="wisdomBookmark"
           options={{
             title: '', headerShown: false

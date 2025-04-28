@@ -30,6 +30,14 @@ export namespace AppNavigator {
         });
     }
 
+    export const openWisdomResponseStandalone = (
+        router: Router
+    ) => {
+        router.navigate({
+            pathname: '/wisdomRespondStandalone'
+        })
+    }
+
     export const openWisdomScreenLegacy = (router: Router, intent: Intent | null) => {
         router.navigate({
             pathname: "/wisdomDetail",

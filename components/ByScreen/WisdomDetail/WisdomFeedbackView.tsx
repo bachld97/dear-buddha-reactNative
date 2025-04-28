@@ -20,7 +20,8 @@ const FEEDBACK_OPTIONS = [
 ];
 
 type WisdomFeedbackViewProps = {
-    tracker: WisdomDetailTracker
+    isCompact: boolean
+    tracker: WisdomDetailTracker | null
 }
 
 export const WisdomFeedbackView: React.FC<WisdomFeedbackViewProps> = props => {
@@ -30,12 +31,14 @@ export const WisdomFeedbackView: React.FC<WisdomFeedbackViewProps> = props => {
 
     const onFeedback = (value: string, positive: boolean) => {
         setSelectedFeedback(value)
-        tracker.logFeedback(value)
+        tracker?.logFeedback(value)
     }
 
     return (
         <View style={styles.feedbackContainer}>
-            <Text style={styles.feedbackTitle}>
+            <Text style={[
+                styles.feedbackTitle, props.isCompact && styles.feedbackTitleCompact
+            ]}>
                 Con cảm thấy thế nào sau khi nghe điều này?
             </Text>
             <View style={styles.feedbackOptions}>
@@ -64,6 +67,10 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: Colors.icon,
         textAlign: 'center',
+    },
+    feedbackTitleCompact: {
+        fontSize: 15,
+        textAlign: 'left',
     },
     feedbackOptions: {
         flexDirection: 'row',
