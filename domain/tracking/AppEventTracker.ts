@@ -15,6 +15,8 @@ export namespace AppEvent {
 
     export const openBookmark = "open_bookmark"
 
+    export const shareWisdom = "share_wisdom"
+
     export const selectFeedback = "select_feedback"
 
     export const askAgain = "ask_again"
@@ -96,14 +98,20 @@ export class WisdomDetailTracker {
 
     logBookmark(wisdom: BuddhistWisdom) {
         AppEventTracker.logEvent(AppEvent.bookmarkWisdom, {
-            author: wisdom.id
+            wisdom: wisdom.id
         });
         this.checkLogCompleteTeaching();
     }
 
     logAskAgain() {
-        AppEventTracker.logEvent(AppEvent.askAgain);;
-        this.checkLogCompleteTeaching();
+        AppEventTracker.logEvent(AppEvent.askAgain)
+        this.checkLogCompleteTeaching()
+    }
+
+    logShare(wisdom: BuddhistWisdom) {
+        AppEventTracker.logEvent(AppEvent.shareWisdom, {
+            wisdom: wisdom.id
+        })
     }
 
     private checkLogCompleteTeaching() {

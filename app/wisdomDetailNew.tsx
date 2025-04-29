@@ -73,6 +73,7 @@ const WisdomDetailNew = () => {
   }
 
   const handleShare = (wisdom: BuddhistWisdom) => {
+    tracker.logShare(wisdom)
     setIsSharing(true);
   }
 
