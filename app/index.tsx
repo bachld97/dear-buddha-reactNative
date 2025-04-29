@@ -12,8 +12,9 @@ import { Colors } from '@/constants/Colors';
 import { useEffect } from "react";
 
 import { Audio } from 'expo-av';
+import AppAudioManager from "@/domain/av/AppAudioManager";
 
-const audioSource = require('@/assets/bell_fade.mp3');
+const audioSource = require('@/assets/test_audio.mp3');
 
 export default function Index() {
   const buddhaImage = require('@/assets/splash-icon2.png')
@@ -21,25 +22,20 @@ export default function Index() {
   const router = useRouter();
 
   const playSound = async () => {
-    console.debug('play sound')
-    let soundObj = await Audio.Sound.createAsync(
-      audioSource
-    )
-    const sound = soundObj.sound
-    sound.setOnPlaybackStatusUpdate((status) => {
-      if ("didJustFinish" in status && status.didJustFinish) {
-        sound.unloadAsync()
-        AppNavigator.openMoodInput(router);
-      }
-    })
-
-    await sound.playAsync()
+    await AppAudioManager.getInstance().play(audioSource)
   }
 
   useEffect(() => {
     setTimeout(async () => {
       await playSound()
+
+      setTimeout(async () => {
+        AppNavigator.openMoodInput(router); 
+      }, 3000);
+
     }, 500);
+
+
   }, [])
 
   return (

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { Feather } from '@expo/vector-icons';
 import {
   SafeAreaView
 } from 'react-native-safe-area-context'
@@ -8,6 +9,7 @@ import { Colors } from '@/constants/Colors';
 import { AppNavigator } from "@/domain/navigator/AppNavigator"
 import { useRouter } from 'expo-router';
 import { AppEventTracker, AppEvent } from '@/domain/tracking/AppEventTracker';
+import AppAudioManager from '@/domain/av/AppAudioManager';
 
 interface HeaderProps {
   title?: string;
@@ -21,6 +23,9 @@ const Header: React.FC<HeaderProps> = ({
   showBack = false
 }) => {
   const router = useRouter();
+  const audioManager = AppAudioManager.getInstance()
+
+  const [isMute, setIsMute] = useState(audioManager.isMute)
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
@@ -36,19 +41,40 @@ const Header: React.FC<HeaderProps> = ({
           )}
           <Text style={styles.title}>{title}</Text>
         </View>
-        {showBookmark && (
+
+        <View style={styles.rightContainer}>
+
           <TouchableOpacity
             style={styles.bookmarkButton}
             onPress={() => {
-              AppEventTracker.logEvent(AppEvent.openBookmark, {
-                source: "header"
-              });
-              AppNavigator.openBookmark(router)
+              if (isMute) {
+                audioManager.unMute()
+              } else {
+                audioManager.mute()
+              }
+              setIsMute(!isMute)
             }}
           >
-            <Ionicons name="bookmark" size={16} color={Colors.icon} />
+            <Ionicons
+              name={isMute ? "volume-mute" : "volume-high"}
+              size={16}
+              color={Colors.icon} />
           </TouchableOpacity>
-        )}
+
+          {showBookmark && (
+            <TouchableOpacity
+              style={styles.bookmarkButton}
+              onPress={() => {
+                AppEventTracker.logEvent(AppEvent.openBookmark, {
+                  source: "header"
+                });
+                AppNavigator.openBookmark(router)
+              }}
+            >
+              <Ionicons name="bookmark" size={16} color={Colors.icon} />
+            </TouchableOpacity>)}
+          
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -68,6 +94,11 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
   },
   leftContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  rightContainer: {
+    gap: 8,
     flexDirection: 'row',
     alignItems: 'center',
   },

@@ -14,6 +14,7 @@ export const Colors = {
     textOnColor: '#fafafa',
     textTitle: '#1F2937',
     background: '#f0f6ef',
+    backgroundA60: '#f0f6ef99',
 
     tint: tintColorLight,
     tabIconDefault: '#687076',

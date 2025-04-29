@@ -68,8 +68,11 @@ const styles = StyleSheet.create({
     },
 
     watermark: {
-        // zIndex: 1000,
-        // position: "absolute",
+        zIndex: 1000,
+        position: "absolute",
+        top: 0, left: 0, right: 0,
+        opacity: 0.7,
+
         width: '100%',
         paddingHorizontal: 16,
         paddingVertical: 8,
