@@ -14,7 +14,7 @@ import { useEffect } from "react";
 import { Audio } from 'expo-av';
 import AppAudioManager from "@/domain/av/AppAudioManager";
 
-const audioSource = require('@/assets/test_audio.mp3');
+const audioSource = require('@/assets/chanting_01.mp3');
 
 export default function Index() {
   const buddhaImage = require('@/assets/splash-icon2.png')

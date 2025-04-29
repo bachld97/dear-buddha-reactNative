@@ -14,7 +14,7 @@ class AppAudioManager {
     return instance;
   }
 
-  async play(audio: AVPlaybackSource, volume: number = 0.8) {
+  async play(audio: AVPlaybackSource, volume: number = 0.6) {
     if (this.sound !== undefined) {
       await this.sound.unloadAsync()
     }
@@ -41,7 +41,7 @@ class AppAudioManager {
     this.sound?.setVolumeAsync(0)
   }
 
-  async unMute(volume: number = 0.8) {
+  async unMute(volume: number = 0.6) {
     this.isMute = false
     this.sound?.setVolumeAsync(volume)
   }
