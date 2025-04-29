@@ -73,7 +73,8 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.appGreen,
     },
     ctaSingleButtonText: {
-        color: Colors.icon
+        color: Colors.icon,
+        textAlign: 'center'
     },
     ctaSingleButtonTextSelected: {
         color: Colors.textOnColor

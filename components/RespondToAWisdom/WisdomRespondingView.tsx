@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { Keyboard } from 'react-native';
 
 import ModalSheetView from '@/components/ModalSheetView';
-import { Colors } from '@/constants/Colors';
-import WisdomRespondingContentView from '@/components/WisdomRespondingContentView';
+import WisdomRespondingContentView from '@/components/RespondToAWisdom/WisdomRespondingContentView';
 
 type WisdomRespondingProps = {
   isVisible: boolean

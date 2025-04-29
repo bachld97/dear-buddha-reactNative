@@ -20,12 +20,15 @@ import { Colors } from '@/constants/Colors';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { AppNavigator } from '@/domain/navigator/AppNavigator';
 import ShareableComponent from '@/components/ShreableComponent';
-import WisdomCardView from '@/components/ByScreen/WisdomDetail/WisdomCardView';
-import WisdomFeedbackView from '@/components/ByScreen/WisdomDetail/WisdomFeedbackView';
-import BannerView from '@/components/BannerView';
-import WisdomCTAGroupView from '@/components/ByScreen/WisdomDetail/WisdomCTAGroupView';
+
+import WisdomCardView from '@/components/ReceiveAWisdom/WisdomCardView';
+import WisdomFeedbackView from '@/components/ReceiveAWisdom/WisdomFeedbackView';
+import WisdomCTAGroupView from '@/components/ReceiveAWisdom/WisdomCTAGroupView';
+
 import { MyStyle } from '@/constants/Styles';
-import WisdomRespondingContentView from '@/components/WisdomRespondingContentView';
+
+import BannerView from '@/components/BannerView';
+import WisdomRespondingContentView from '@/components/RespondToAWisdom/WisdomRespondingContentView';
 
 const WisdomDetailNew = () => {
 
@@ -63,6 +66,10 @@ const WisdomDetailNew = () => {
 
   const handleResponse = (wisdom: BuddhistWisdom) => {
     setIsResponding(!isResponding)
+  }
+
+  const handleAddAction = (wisdom: BuddhistWisdom) => {
+
   }
 
   const handleShare = (wisdom: BuddhistWisdom) => {
@@ -126,6 +133,7 @@ const WisdomDetailNew = () => {
 
         <WisdomCTAGroupView
           isResponding={isResponding}
+          onAddAction={() => handleAddAction(wisdom)}
           onResponse={() => { handleResponse(wisdom) }}
           onBookmark={() => { handleBookmark(wisdom) }}
           onShare={() => { handleShare(wisdom) }}

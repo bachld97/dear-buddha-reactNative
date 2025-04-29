@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, ScrollView, Text } from 'react-native';
 
-import WisdomRespondingContentView from "@/components/WisdomRespondingContentView"
+import WisdomRespondingContentView from "@/components/RespondToAWisdom/WisdomRespondingContentView"
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '@/components/Header';
 import { MyStyle } from '@/constants/Styles';
