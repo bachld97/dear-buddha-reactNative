@@ -11,7 +11,6 @@ type WisdomCTAProps = {
   onAddAction: () => void
   onBookmark: () => void
   onShare: () => void
-  onAskAgain: () => void
 }
 
 const WisdomCTAGroupView: React.FC<WisdomCTAProps> = props => {

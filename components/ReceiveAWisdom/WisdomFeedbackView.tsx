@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         paddingTop: 8,
-        paddingBottom: 16
+        paddingBottom: 8
     },
     feedbackButton: {
         padding: 8,

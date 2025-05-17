@@ -138,7 +138,6 @@ const WisdomDetailNew = () => {
           onResponse={() => { handleResponse(wisdom) }}
           onBookmark={() => { handleBookmark(wisdom) }}
           onShare={() => { handleShare(wisdom) }}
-          onAskAgain={() => { handleAskAgain() }}
         />
 
         {isResponding &&
@@ -174,7 +173,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
   },
   askAgainButton: {
-    marginTop: 12,
+    paddingTop: 20,
+    paddingBottom: 12,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
