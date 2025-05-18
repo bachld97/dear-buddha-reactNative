@@ -1,5 +1,5 @@
 import {
-    firebase
+    getAnalytics
 } from "@react-native-firebase/analytics"
 import { BuddhistWisdom } from "../data/DomainModels"
 
@@ -27,13 +27,12 @@ export namespace AppEvent {
 
 }
 
-
 export class AppEventTracker {
     private static eventLogger = (
         name: string,
         params?: { [key: string]: any }
     ) => {
-        firebase.analytics().logEvent(name, params);
+        getAnalytics().logEvent(name, params);
     } 
 
     private static screenViewLogger = async (

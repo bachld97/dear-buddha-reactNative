@@ -1,4 +1,50 @@
 import { BuddhistWisdom, Intent, IntentType, Author } from "./DomainModels";
+import {
+    collection,
+    query,
+    where,
+    doc,
+    getDoc,
+    getDocs,
+    getFirestore,
+    getDocsFromServer,
+    getDocFromServer
+} from '@react-native-firebase/firestore';
+
+
+const getRandomElement = (arr: any[]) => arr[Math.floor(Math.random() * arr.length)]
+
+// const fetchedData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+
+const authorFromFirestore = (data) => {
+    const authorId = data.id
+
+    try {
+        return {
+            slug: authorId,
+            fullName: data.fullName,
+            portraitUrl: data.portraitUrl
+        }
+    } catch {
+        return authorCollection['unknown']
+    }
+}
+
+const quoteFromFirestore = (data, author: Author) => {
+    try {
+        return {
+            id: data.id,
+            quote: data.quote,
+            author: author,
+            reflection: data.reflection,
+            intent: data.intentType
+        }
+    } catch {
+        return null;
+    }
+}
+
 
 export class WisdomRepository {
 
@@ -20,6 +66,30 @@ export class WisdomRepository {
         return { intentType: "calm", label: "Bình yên", emoji: "😌" }
     }
 
+    private static getLocalWisdom(
+        intent: Intent | null
+    ): BuddhistWisdom {
+        const intentType = (intent != null)
+            ? intent.intentType
+            : WisdomRepository.defaultIntent().intentType;
+
+        // Default to calm if intent is not recognized
+        const safeIntent = (intentType in localWisdomCollection)
+            ? intentType
+            : 'calm';
+
+        // Get the collection for the specified intent
+        const collection = localWisdomCollection[safeIntent];
+
+        // Randomly select a wisdom
+        const randomIndex = Math.floor(Math.random() * collection.length);
+
+        const result = collection[randomIndex];
+        result.intent = intent;
+        return result;
+    }
+
+
     static async getWisdom(
         intent: Intent | null
     ): Promise<BuddhistWisdom> {
@@ -27,32 +97,40 @@ export class WisdomRepository {
             ? intent.intentType
             : WisdomRepository.defaultIntent().intentType;
 
-        return new Promise((resolve) => {
-            // Default to calm if intent is not recognized
-            const safeIntent = (intentType in wisdomCollection)
-                ? intentType
-                : 'calm';
+        const db = getFirestore()
+        const quoteQuery = query(
+            collection(db, 'quotes'), 
+            where('intentType', '==', intentType)
+        );
+                
+        const quotesSnapshot = await getDocsFromServer(quoteQuery);
+        console.debug('afterGet get', quotesSnapshot.docs);
+        
+        const chosenQuoteData = getRandomElement(
+            quotesSnapshot.docs
+        ).data()
 
-            // Get the collection for the specified intent
-            const collection = wisdomCollection[safeIntent];
+        const authorData = await getDocFromServer(
+            doc(db, 'authors', chosenQuoteData.authorId)
+        ).then(s => s.data())
 
-            // Randomly select a wisdom
-            const randomIndex = Math.floor(Math.random() * collection.length);
-
-            const result = collection[randomIndex];
-            result.intent = intent;
-
-            // Simulate a small delay to make it feel more natural
-            setTimeout(() => {
-                resolve(result);
-            }, 100);
-        });
-
+        const author = authorFromFirestore(authorData)
+        
+        const result = quoteFromFirestore(chosenQuoteData, author)
+        if (result != null) {
+            return result;
+        } else {
+            return WisdomRepository.getLocalWisdom(intent)
+        }
     }
-
 }
 
 const authorCollection: Record<string, Author> = {
+    'unknown': {
+        slug: 'unknown',
+        fullName: 'Không xác định',
+        portraitUrl: ''
+    },
     'tnh': {
         slug: 'tnh',
         fullName: 'Thiền Sư Thích Nhất Hạnh',
@@ -85,7 +163,7 @@ const authorCollection: Record<string, Author> = {
     }
 }
 
-const wisdomCollection: Record<IntentType, BuddhistWisdom[]> = {
+const localWisdomCollection: Record<IntentType, BuddhistWisdom[]> = {
     calm: [
         {
             id: "c1",
